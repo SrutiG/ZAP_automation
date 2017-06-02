@@ -52,7 +52,7 @@ class ZAPCommon(object):
     #start running ZAP
     def startZap(self):
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
-        subprocess.Popen([zapDirectory + 'zap/zap.sh','-daemon', '-config api.key=' + self.ZAP_apikey], shell=True)
+        subprocess.Popen([zapDirectory + 'zap/zap.sh','-daemon', '-config api.key=' + self.ZAP_apikey, '-config port=8090'], shell=True)
 
     def initiateZAPAPI(self, path, username, password, payload):
         # Make HTTP requests
