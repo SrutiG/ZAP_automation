@@ -286,9 +286,9 @@ class ZAPCommon(object):
         sessionFile = self.config['application']['sessionFile']
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
         os.system('cp ~/%s.session %s.ZAP/session/%s.session'%(sessionFile, zapDirectory, sessionFile))
-        os.system('cp ~/%s.properties %s.ZAP/session/%s.session.properties'%(sessionFile, zapDirectory, sessionFile))
-        os.system('cp ~/%s.data %s.ZAP/session/%s.session.data'%(sessionFile, zapDirectory, sessionFile))
-        os.system('cp ~/%s.script %s.ZAP/session/%s.session.script'%(sessionFile, zapDirectory, sessionFile))
+        os.system('cp ~/%s.session.properties %s.ZAP/session/%s.session.properties'%(sessionFile, zapDirectory, sessionFile))
+        os.system('cp ~/%s.session.data %s.ZAP/session/%s.session.data'%(sessionFile, zapDirectory, sessionFile))
+        os.system('cp ~/%s.session.script %s.ZAP/session/%s.session.script'%(sessionFile, zapDirectory, sessionFile))
         loadSessionPath = self.config['ZAP_core']['loadSessionPath']
         payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey,'name':sessionFile + ".session"}
         loadSession_resp = self.initiateZAPAPI(loadSessionPath,'','',payload)
