@@ -16,6 +16,7 @@ import requests
 import urllib
 import json
 import os
+import subprocess
 
 ############ Default Values ############
 configFile = 'ZAP_automation/ZAPconfig.json' # configuration file
@@ -51,7 +52,11 @@ class ZAPCommon(object):
     #start running ZAP
     def startZap(self):
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
-        os.system(zapDirectory + "zap/zap.sh -config api.key=" + self.ZAP_apikey)
+        p = subprocess.Popen('pwd' ,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, err = p.communicate()
+        os.system("cd " + zapDirectory + "zap")
+        os.system("./zap.sh -config api.key=" + self.ZAP_apikey)
+        os.system("cd " + output)
 
     def initiateZAPAPI(self, path, username, password, payload):
         # Make HTTP requests
