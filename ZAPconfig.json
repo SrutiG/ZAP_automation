@@ -51,7 +51,8 @@
       "createContextPath":"json/context/action/newContext",
       "removeContextPath":"json/context/action/removeContext",
       "contextListPath":"json/context/view/contextList",
-      "includeContextPath":"json/context/action/includeInContext"
+      "includeContextPath":"json/context/action/includeInContext",
+      "contextPath":"json/context/view/context"
   },
   "alertFilter":{
       "addAlertFilterPath":"json/alertFilter/action/addAlertFilter"

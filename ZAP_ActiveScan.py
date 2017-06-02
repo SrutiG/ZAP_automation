@@ -135,9 +135,17 @@ def getDomainName(URL):
 def getScanStatus(scanID):
     statusPath = config['ascan']['scanstatusPath'] 
     #StatusURL = ZAP_baseURL + "/" + statusPath
-    payload = {'zapapiformat':ZAP_apiformat,'scanId':scanID}
+    payload = {'zapapiformat':ZAP_apiformat,'apikey':ZAP_apikey,'scanId':scanID}
     status_response = ZAPCommon.initiateZAPAPI(statusPath,'','',payload)
     return status_response 
+
+def getContextId():
+    contextName = config['context']['name']
+    contextPath = config['context']['contextPath']
+    payload={'zapapiformat':ZAP_apiformat,'apikey':ZAP_apikey,'contextName':contextName}
+    context_response = ZAPCommon.initiateZAPAPI(statusPath,'','',payload)
+    return context_response.json()['id']
+
 
     
 def printActiveScanResults():
@@ -178,7 +186,7 @@ def printActiveScanResults():
 
 contextName = config['context']['name']
 
-contextId = 4
+contextId = getContextId()
 URL = config['application']['applicationURL']
 userName = config['application']['userName']  
 userId = 3
