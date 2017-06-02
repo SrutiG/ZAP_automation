@@ -66,7 +66,8 @@
   "users":{
       "newUserPath":"json/users/action/newUser",
       "setAuthCredsPath":"json/users/action/setAuthenticationCredentials",
-      "setUserEnabledPath":"json/users/action/setUserEnabled/"
+      "setUserEnabledPath":"json/users/action/setUserEnabled/",
+      "usersPath":"json/users/view/usersList/"
   },
   "spider":{
       "scanAsUserPath":"json/spider/action/scanAsUser",

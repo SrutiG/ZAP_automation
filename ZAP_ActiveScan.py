@@ -96,6 +96,25 @@ def runActiveScan(contextId,scanPolicyName):
                 print "[Info] Active Scan in progress. " + scan_status + "% completed. " + "Please wait...."
             print "[Done] Active Scan completed" 
 
+def runActiveScanOnSession(contextId, scanPolicyName, userId):
+    scanAllRequestHeaders()
+    activescanPath = config['ascan']['scanAsUser']
+    if scanPolicyName == None:
+        payload = {'zapapiformat':ZAP_apiformat, 'apikey':ZAP_apikey,'recurse':True, 
+                   'inScopeOnly':False, 'contextId':contextId, 'userId':userId
+        }
+    else:
+        payload = {'zapapiformat':ZAP_apiformat, 'apikey':ZAP_apikey,'recurse':True, 
+                   'inScopeOnly':False, 'scanPolicyName':scanPolicyName,'contextId':contextId, 'userId':userId
+        }
+    ascan_response = ZAPCommon.initiateZAPAPI(activescanPath,'','',payload)
+    scanID = ascan_response.json()['scan']
+    scan_status = -1
+    while (int(scan_status) < 100):
+        time.sleep(10) # 10 seconds
+        scan_status = getScanStatus(scanID).json()['status']
+        print "[Info] Active Scan in progress. " + scan_status + "% completed. " + "Please wait...."
+    print "[Done] Active Scan completed" 
 
 # Initiate active scan by logging in as user       
 def runActiveScanAsUser(contextId,scanPolicyName,userId):
@@ -146,6 +165,17 @@ def getContextId():
     context_response = ZAPCommon.initiateZAPAPI(contextPath,'','',payload)
     return context_response.json()['context']['id']
 
+def getUserId():
+    userName = config['application']['userName']
+    usersPath = config['users']['usersPath']
+    payload={'zapapiformat':ZAP_apiformat,'apikey':ZAP_apikey}
+    users_response = ZAPCommon.initiateZAPAPI(usersPath,'','',payload)
+    usersList = users_response.json()['usersList']
+    for obj in usersList:
+        if obj["name"] == userName:
+            return obj["id"]
+    return None
+
 
     
 def printActiveScanResults():
@@ -189,18 +219,21 @@ contextName = config['context']['name']
 contextId = getContextId()
 URL = config['application']['applicationURL']
 userName = config['application']['userName']  
-userId = 3
+userId = getUserId()
+if userId == None:
+    print "error user not found"
+    sys.exit(1)
 customScan = config['application']['customScanPolicy']
 if customScan:   # use custom scan policy or tests
     scanPolicyName = config['ascan']['scanPolicyName']
     enableScanners_resp = ZAPCommon.createCustomScanTest(scanPolicyName)
     if enableScanners_resp.status_code == 200:
         print "[Done] Custom Scan Policy Successfully created. "
-        runActiveScanAsUser(contextId,scanPolicyName,userId)
+        runActiveScanOnSession(contextId,scanPolicyName,userId)
         #applicationURL = 'https://workbench-c2-staging.bazaarvoice.com'
         #applicationURL = 'https://s3.amazonaws.com/bvjs-apps'
     else: # Run all tests
-        runActiveScanAsUser(contextId,None)
+        runActiveScan(contextId,None)
 printActiveScanResults() 
         
 
