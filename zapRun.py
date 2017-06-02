@@ -2,6 +2,7 @@ import os
 import ZAPCommon
 import argparse
 import sys
+import json
 '''
 add command git clone origin https://github.com/asadasivan/ZAP_automation.git;cd ZAP_automation;python zapRun.py; to jenkins
 '''
@@ -9,9 +10,10 @@ add command git clone origin https://github.com/asadasivan/ZAP_automation.git;cd
 def addConfiguration(application):
 	ZAP_Common = ZAPCommon.ZAPCommon()
 	config = ZAP_Common.config
+	application = json.loads(application)
 	config['application'] = application
 	configFile = open('ZAP_automation/ZAPConfig.json', 'w')
-	configFile.write(config)
+	configFile.write(json.dumps(config))
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description='install or remove zap')
