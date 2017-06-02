@@ -98,13 +98,14 @@ def runActiveScan(contextId,scanPolicyName):
 
 def runActiveScanOnSession(contextId, scanPolicyName, userId):
     scanAllRequestHeaders()
+    startingPoint = config['application']['applicationURL']
     activescanPath = config['ascan']['scanAsUser']
     if scanPolicyName == None:
-        payload = {'zapapiformat':ZAP_apiformat, 'apikey':ZAP_apikey,'recurse':True, 
+        payload = {'zapapiformat':ZAP_apiformat, 'apikey':ZAP_apikey, 'url':startingPoint,'recurse':True, 
                    'inScopeOnly':False, 'contextId':contextId, 'userId':userId
         }
     else:
-        payload = {'zapapiformat':ZAP_apiformat, 'apikey':ZAP_apikey,'recurse':True, 
+        payload = {'zapapiformat':ZAP_apiformat, 'apikey':ZAP_apikey,'url':startingPoint,'recurse':True, 
                    'inScopeOnly':False, 'scanPolicyName':scanPolicyName,'contextId':contextId, 'userId':userId
         }
     ascan_response = ZAPCommon.initiateZAPAPI(activescanPath,'','',payload)

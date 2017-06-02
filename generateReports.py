@@ -68,7 +68,7 @@ def createHTMLReport(alerts):
 			htmlReport.write('<li><a href="#"><h4><small>More...</small></h4></a></li>')
 			htmlReport.write('</summary>')
 			for x in range(5,len(formattedAlerts[alert]["urls"])):
-				htmlReport.write('<li><h4><small>%s</small></h4></li>'%url)
+				htmlReport.write('<li><h4><small>%s</small></h4></li>'%formattedAlerts[alert]["urls"][x])
 			htmlReport.write('</details>')
 
 		htmlReport.write('</ul>')
