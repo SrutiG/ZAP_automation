@@ -12,6 +12,7 @@ ZAP_Common = ZAPCommon.ZAPCommon()
 #add the custom configuration to the config file
 def addConfiguration(application):
 	config = ZAP_Common.config
+	application = json.loads(application)
 	config['application'] = application
 	configFile = open('ZAP_automation/ZAPconfig.json', 'w')
 	configFile.write(json.dumps(config))
