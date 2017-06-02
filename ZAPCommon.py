@@ -54,7 +54,7 @@ class ZAPCommon(object):
     def startZap(self):
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
         print os.path.expanduser(zapDirectory)
-        subprocess.Popen([os.path.expanduser(zapDirectory) + 'zap/zap.sh', '-daemon'])
+        subprocess.Popen([os.path.expanduser(zapDirectory) + 'zap/zap.sh', '-daemon', '-config api.key=' + self.ZAP_apikey])
         print "ZAP loading..."
         time.sleep(15)
 
@@ -147,7 +147,7 @@ class ZAPCommon(object):
 
     def createScanPolicy(self,scanPolicyName):
         #scanPolicyName = data['ascan']['scanPolicyName']
-        if scanPolicyName in self.getScanPolicies()['scanPolicyNames']:
+        if scanPolicyName in self.getScanPolicies().json()['scanPolicyNames']:
             self.removeScanPolicy(scanPolicyName) # remove existing configuration if it exists
         addScanPolicyPath = self.config['ascan']['addScanPolicyPath']
         payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey,'scanPolicyName':scanPolicyName}
