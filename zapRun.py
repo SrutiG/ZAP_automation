@@ -4,10 +4,12 @@ import argparse
 import sys
 import json
 '''
-add command git clone origin https://github.com/asadasivan/ZAP_automation.git;cd ZAP_automation;python zapRun.py; to jenkins
+add command rm -rf ZAP_automation; pip install requests; git clone https://github.com/SrutiG/ZAP_automation.git; python ZAP_automation/zapRun.py --config $APP_INFO;
+where $APP_INFO is a parameter defined in jenkins- a json object for the key "application" in the config file.
 '''
 ZAP_Common = ZAPCommon.ZAPCommon()
 
+#add the custom configuration to the config file
 def addConfiguration(application):
 	config = ZAP_Common.config
 	config['application'] = application
@@ -24,6 +26,8 @@ if __name__ == "__main__":
 		print "needs application config"
 		sys.exit(1)
 	appData = args.config
+
+	#add the parameters to run the scan
 	addConfiguration(appData)
 	os.system("python ZAP_automation/zapInstallation.py --zap i") #Install ZAP
 	ZAP_Common.startZap() #start zap

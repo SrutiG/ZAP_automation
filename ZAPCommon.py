@@ -47,9 +47,11 @@ class ZAPCommon(object):
 #         return self.ZAP_apiformat   
                 
     # Common methods to initiate ZAP API request
+
+    #start running ZAP
     def startZap(self):
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
-        os.system("sh %szap/zap.sh -config api.key=%s"%(zapDirectory, self.ZAP_apikey))
+        os.system("sh " + zapDirectory + "zap/zap.sh -config api.key=" + self.ZAP_apikey)
 
     def initiateZAPAPI(self, path, username, password, payload):
         # Make HTTP requests
@@ -267,12 +269,14 @@ class ZAPCommon(object):
         if enableUser_resp.status_code == 200:
             print "[Done] User: " + userName + " successfully enabled."
 
+    #get a comma separated string of scanner IDs from an array of scanner names
     def getIDs(self,names):
         ids = ""
         for name in names:
             ids = ids + self.getScanPolicyID(name) + ","
         return ids
 
+    #load a session file saved in a certain directory
     def loadSession(self):
         sessionFile = self.config['application']['sessionFile']
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
@@ -283,6 +287,7 @@ class ZAPCommon(object):
         if loadSession_resp.status_code == 200:
             print "[Done] Session successfully loaded"
 
+    #shutdown the ZAP server
     def stopZap(self):
         pathToShutdown = "json/core/actions/shutdown"
         payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey}
