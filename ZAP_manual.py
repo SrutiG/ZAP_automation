@@ -85,12 +85,11 @@ if include_response.status_code == 200:
     setAuthCreds_resp = ZAPCommon.setAuthCredentialUser(userId, userName, contextId) # Add user credentials
     enableUser_resp = ZAPCommon.enableUser(contextId,userId,userName) # Enable user
     spiderAsUser_resp = spiderURLwithUserCred(contextId, userId, URL)
-    scanId = spiderAsUser_resp.json()['scanAsUser']
     scan_status = -1
     while (int(scan_status) < 100):
         time.sleep(10) # 10 seconds
-        scan_status = getSpiderStatus(scanId).json()['status']
-        print "[Info] Currently spidering the application. " + scan_status + "% completed. " + "Please wait...."
+        scan_status = getSpiderStatus().json()['status']
+        print "[Info] Currently spidering the application. " + scan_status + "% Completed. " + "Please wait...."
     print "[Done] Active Scan completed" 
     # ToDo check spider scan status
     print contextId
