@@ -29,7 +29,7 @@
       "password":"password",
       "customScanPolicy":"False",
       "scanRequestHeader":"False",
-      "sessionFile":"wb.session"
+      "sessionFile":"session.session"
   },
   "ascan":{
       "excludeFromScanPath":"json/ascan/action/excludeFromScan",  
