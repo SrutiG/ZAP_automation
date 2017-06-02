@@ -144,7 +144,7 @@ def getContextId():
     contextPath = config['context']['contextPath']
     payload={'zapapiformat':ZAP_apiformat,'apikey':ZAP_apikey,'contextName':contextName}
     context_response = ZAPCommon.initiateZAPAPI(contextPath,'','',payload)
-    return context_response.json()['id']
+    return context_response.json()['context']['id']
 
 
     
