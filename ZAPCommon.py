@@ -18,7 +18,7 @@ import json
 import os
 
 ############ Default Values ############
-configFile = 'ZAPconfig.json' # configuration file
+configFile = 'ZAP_automation/ZAPconfig.json' # configuration file
 
 class ZAPCommon(object):
 
