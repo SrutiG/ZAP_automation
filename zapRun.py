@@ -14,7 +14,7 @@ def addConfiguration(application):
 	config = ZAP_Common.config
 	config['application'] = application
 	application = json.loads(application)
-	configFile = open('ZAP_automation/ZAPConfig.json', 'w')
+	configFile = open('ZAP_automation/ZAPconfig.json', 'w')
 	configFile.write(json.dumps(config))
 
 if __name__ == "__main__":
