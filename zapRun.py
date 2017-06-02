@@ -32,10 +32,7 @@ if __name__ == "__main__":
 	os.system("python ZAP_automation/ZAP_ActiveScan.py") #active scan
 	os.system("python ZAP_automation/generateReports.py") #generate HTML Report
 	#send reports to S3***
-<<<<<<< HEAD
 	ZAP_Common.stopZap()
 	os.system("python ZAP_automation/zapInstallation.py --zap r") #Remove ZAP
 	os.system("rm -rf ZAP_automation")
-=======
-	os.system("python ZAP_automation/zapInstallation.py --zap r") #Remove ZAP
->>>>>>> 476c707fb12d62b844ebdf461b33fb37d26e6c98
+
