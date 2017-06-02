@@ -55,6 +55,7 @@ class ZAPCommon(object):
         p = subprocess.Popen('pwd' ,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, err = p.communicate()
         os.system("cd " + zapDirectory + "zap")
+        os.system("ls")
         os.system("./zap.sh -config api.key=" + self.ZAP_apikey)
         os.system("cd " + output)
 
