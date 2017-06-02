@@ -17,6 +17,7 @@ import urllib
 import json
 import os
 import subprocess
+import time
 
 ############ Default Values ############
 configFile = 'ZAP_automation/ZAPconfig.json' # configuration file
