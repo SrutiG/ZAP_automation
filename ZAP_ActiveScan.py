@@ -43,15 +43,16 @@ def getProxyHistory():
 #         print "[Info] No. of sites to test: " + str(len(site_list))
 #         for key in site_list['sites']:
 #             print  key
-            
+
 #Exclude certain sites from the the scan            
 def excludeSitesfromScan():
     excludeFromScanPath = config['ascan']['excludeFromScanPath']
     excludeSites = config['application']['excludeSites']
-    for excludeSite in excludeSites:
-        payload ={'zapapiformat':ZAP_apiformat,'apikey':ZAP_apikey,'regex':excludeSite}
-        #print "[Info] Excluding site: " + excludeSite + "from active scan"
-        ZAPCommon.initiateZAPAPI(excludeFromScanPath,'','',payload)
+    if len(excludeSites) > 0:
+        for excludeSite in excludeSites:
+            payload ={'zapapiformat':ZAP_apiformat,'apikey':ZAP_apikey,'regex':excludeSite}
+            #print "[Info] Excluding site: " + excludeSite + "from active scan"
+            ZAPCommon.initiateZAPAPI(excludeFromScanPath,'','',payload)
     
     #payload = {'key1': 'value1', 'key2': 'value2'}  
 

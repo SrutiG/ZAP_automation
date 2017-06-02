@@ -82,6 +82,6 @@ def createHTMLReport(alerts):
 
 if __name__ == "__main__":
 	ZAP_Common = ZAPCommon.ZAPCommon()
-	alerts = ZAP_Common.getScanAlerts()
+	alerts = ZAP_Common.getScanAlerts()['alerts']
 	createHTMLReport(alerts)
 
