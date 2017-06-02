@@ -287,7 +287,7 @@ class ZAPCommon(object):
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
         os.system('mv ~/%s %s.ZAP/session/%s*'%(sessionFile, zapDirectory, sessionFile))
         loadSessionPath = self.config['ZAP_core']['loadSessionPath']
-        payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey,'name':sessionFile}
+        payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey,'name':sessionFile + ".session"}
         loadSession_resp = self.initiateZAPAPI(loadSessionPath,'','',payload)
         if loadSession_resp.status_code == 200:
             print "[Done] Session successfully loaded"
