@@ -2,6 +2,7 @@ import os
 import ZAPCommon
 import argparse
 import sys
+import json
 '''
 add command git clone origin https://github.com/asadasivan/ZAP_automation.git;cd ZAP_automation;python zapRun.py; to jenkins
 '''
@@ -10,6 +11,7 @@ ZAP_Common = ZAPCommon.ZAPCommon()
 def addConfiguration(application):
 	config = ZAP_Common.config
 	config['application'] = application
+	application = json.loads(application)
 	configFile = open('ZAP_automation/ZAPConfig.json', 'w')
 	configFile.write(json.dumps(config))
 
@@ -30,6 +32,10 @@ if __name__ == "__main__":
 	os.system("python ZAP_automation/ZAP_ActiveScan.py") #active scan
 	os.system("python ZAP_automation/generateReports.py") #generate HTML Report
 	#send reports to S3***
+<<<<<<< HEAD
 	ZAP_Common.stopZap()
 	os.system("python ZAP_automation/zapInstallation.py --zap r") #Remove ZAP
 	os.system("rm -rf ZAP_automation")
+=======
+	os.system("python ZAP_automation/zapInstallation.py --zap r") #Remove ZAP
+>>>>>>> 476c707fb12d62b844ebdf461b33fb37d26e6c98
