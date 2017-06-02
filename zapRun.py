@@ -21,8 +21,8 @@ if __name__ == "__main__":
 	if args.config == "n":
 		print "needs application config"
 		sys.exit(1)
-	appData = args.application
-	addConfiguration(application)
+	appData = args.config
+	addConfiguration(appData)
 	os.system("python ZAP_automation/zapInstallation.py --zap i") #Install ZAP
 	ZAP_Common.startZap() #start zap
 	#load the session from S3*** in ZAP_manual.py
