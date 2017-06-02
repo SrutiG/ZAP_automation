@@ -22,7 +22,7 @@ if __name__ == "__main__":
 		print "needs application config"
 		sys.exit(1)
 	appData = args.config
-	addConfiguration(application)
+	addConfiguration(appData)
 	os.system("python ZAP_automation/zapInstallation.py --zap i") #Install ZAP
 	#load the session from S3*** in ZAP_manual.py
 	os.system("python ZAP_automation/ZAP_manual.py") #spider
