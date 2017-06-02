@@ -51,8 +51,7 @@ class ZAPCommon(object):
 
     #start running ZAP
     def startZap(self):
-        zapDirectory = self.config['ZAP_info']['ZAP_directory']
-        os.system(zapDirectory + "zap/zap.sh -daemon -config api.key=" + self.ZAP_apikey)
+        subprocess.Popen([zapDirecory + 'zap/zap.sh','-daemon'],stdout=open(os.devnull,'w'))
 
     def initiateZAPAPI(self, path, username, password, payload):
         # Make HTTP requests
