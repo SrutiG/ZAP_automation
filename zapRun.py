@@ -10,7 +10,7 @@ def addConfiguration(application):
 	ZAP_Common = ZAPCommon.ZAPCommon()
 	config = ZAP_Common.config
 	config['application'] = application
-	configFile = open('ZAPConfig.json', 'w')
+	configFile = open('ZAP_automation/ZAPConfig.json', 'w')
 	configFile.write(config)
 
 if __name__ == "__main__":
