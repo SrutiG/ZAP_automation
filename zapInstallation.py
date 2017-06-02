@@ -9,7 +9,7 @@ Install zap
 '''
 class zapInstallation:
 
-	def __init__(self, directory="/home/arun/", zapVersion="2.6.0"):
+	def __init__(self, directory="~/", zapVersion="2.6.0"):
 		self.directory = directory
 		self.zapVersion = zapVersion
 
