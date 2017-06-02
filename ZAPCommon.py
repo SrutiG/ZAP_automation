@@ -49,7 +49,7 @@ class ZAPCommon(object):
     # Common methods to initiate ZAP API request
     def startZap(self):
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
-        os.system(".%szap/zap.sh -config api.key=%s"%(zapDirectory, self.ZAP_apikey))
+        os.system("sh %szap/zap.sh -config api.key=%s"%(zapDirectory, self.ZAP_apikey))
 
     def initiateZAPAPI(self, path, username, password, payload):
         # Make HTTP requests
