@@ -109,11 +109,11 @@ def runActiveScanOnSession(contextId, scanPolicyName, userId):
                    'inScopeOnly':False, 'scanPolicyName':scanPolicyName,'contextId':contextId, 'userId':userId
         }
     ascan_response = ZAPCommon.initiateZAPAPI(activescanPath,'','',payload)
-    scanID = ascan_response.json()['scan']
+    
     scan_status = -1
     while (int(scan_status) < 100):
         time.sleep(10) # 10 seconds
-        scan_status = getScanStatus(scanID).json()['status']
+        scan_status = getScanStatus().json()['status']
         print "[Info] Active Scan in progress. " + scan_status + "% completed. " + "Please wait...."
     print "[Done] Active Scan completed" 
 
@@ -152,10 +152,10 @@ def getDomainName(URL):
     return domainName
 
 # Scan status
-def getScanStatus(scanID):
+def getScanStatus():
     statusPath = config['ascan']['scanstatusPath'] 
     #StatusURL = ZAP_baseURL + "/" + statusPath
-    payload = {'zapapiformat':ZAP_apiformat,'apikey':ZAP_apikey,'scanId':scanID}
+    payload = {'zapapiformat':ZAP_apiformat,'apikey':ZAP_apikey}
     status_response = ZAPCommon.initiateZAPAPI(statusPath,'','',payload)
     return status_response 
 
