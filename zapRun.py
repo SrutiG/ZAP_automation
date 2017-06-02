@@ -7,8 +7,8 @@ add command git clone origin https://github.com/asadasivan/ZAP_automation.git;cd
 '''
 
 def addConfiguration(application):
-	ZAPCommon = ZAPCommon.ZAPCommon()
-	config = ZAPCommon.config
+	ZAP_Common = ZAPCommon.ZAPCommon()
+	config = ZAP_Common.config
 	config['application'] = application
 	configFile = open('ZAPConfig.json', 'w')
 	configFile.write(config)
