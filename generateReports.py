@@ -81,6 +81,7 @@ def createHTMLReport(alerts):
 	htmlReport.write('</ul></div></div></body></html>')
 
 if __name__ == "__main__":
-	alerts = ZAPCommon.getScanAlerts()
+	ZAP_Common = ZAPCommon.ZAPCommon()
+	alerts = ZAP_Common.getScanAlerts()
 	createHTMLReport(alerts)
 
