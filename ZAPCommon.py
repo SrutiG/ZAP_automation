@@ -53,7 +53,7 @@ class ZAPCommon(object):
     #start running ZAP
     def startZap(self):
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
-        subprocess.Popen(zapDirectory + 'zap/zap.sh -daemon')
+        subprocess.Popen([os.path.expandvars(zapDirectory) + 'zap/zap.sh, -daemon'])
         print "ZAP loading..."
         time.sleep(15)
 
