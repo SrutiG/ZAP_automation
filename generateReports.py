@@ -15,7 +15,7 @@ def formatAlerts(alerts):
 			formattedAlerts[alert["name"]]["urls"].append(alert["url"])
 	return formattedAlerts
 
-def risk(alerts):
+def getRisk(alerts):
 	risk = {"High":0, "Medium":0, "Low":0, "Information":0}
 	for alert in alerts:
 		risk[alert["risk"]] += 1
@@ -26,7 +26,7 @@ def getColors():
 
 def createHTMLReport(alerts):
 	formattedAlerts = formatAlerts(alerts)
-	risk = risk(alerts)
+	risk = getRisk(alerts)
 	colors = getColors()
 	htmlReport = open("~/htmlReport.html", "w")
 	htmlReport.write('<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>HTML Report</title><style>:root {--low: #333;--main-bgrd: #FFF;--alert: #CCC;}body {background-color: var(--main-bgrd) ! important;width: 100vw;}details summary::-webkit-details-marker { display:none; }summary{outline:none;}.main {background-color: inherit ! important;padding: 0 ! important;}.alert{background-color: var(--main-bgrd);padding: 2% ! important;border-bottom: 1px solid var(--alert) ! important;}.risk-table {width: 30% ! important;margin: 2%' + ' auto;}.risk-item {width: 150px;padding: 0.75%;margin-top: 10%;color: #444;}.risk-item:hover {text-decoration: none ! important;}</style><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><script type="text/javascript" src="report.js"></script></head>')
