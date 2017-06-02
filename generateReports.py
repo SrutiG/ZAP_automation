@@ -1,7 +1,10 @@
 import ZAPCommon
 
 def concatenateReports(jsonLst):
-	return [] + alert for alert in jsonLst
+	alerts = []
+	for alertLst in jsonLst:
+		alerts += alertLst
+	return alerts
 
 def formatAlerts(alerts):
 	formattedAlerts = {}

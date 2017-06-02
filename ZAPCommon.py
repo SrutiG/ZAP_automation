@@ -47,6 +47,10 @@ class ZAPCommon(object):
 #         return self.ZAP_apiformat   
                 
     # Common methods to initiate ZAP API request
+    def startZap(self):
+        zapDirectory = self.config['ZAP_info']['ZAP_directory']
+        os.system(".%szap/zap.sh -config api.key=%s"%(zapDirectory, self.ZAP_apikey))
+
     def initiateZAPAPI(self, path, username, password, payload):
         # Make HTTP requests
         # to view site history: http://127.0.0.1:8082/UI/core/view/sites/
@@ -272,12 +276,19 @@ class ZAPCommon(object):
     def loadSession(self):
         sessionFile = self.config['application']['sessionFile']
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
-        os.system('mv ~/%s %s/zap/session/%s'%(sessionFile, zapDirectory, sessionFile))
+        os.system('mv ~/%s %szap/session/%s'%(sessionFile, zapDirectory, sessionFile))
         loadSessionPath = self.config['ZAP_core']['loadSessionPath']
         payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey,'name':sessionFile}
         loadSession_resp = self.initiateZAPAPI(loadSessionPath,'','',payload)
         if loadSession_resp.status_code == 200:
             print "[Done] Session successfully loaded"
+
+    def stopZap(self):
+        pathToShutdown = "json/core/actions/shutdown"
+        payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey}
+        shutdown_resp = self.initiateZAPAPI(pathToShutdown,'','',payload)
+        if shutdown_resp.status_code == 200:
+            print "[Done] ZAP successfully shut down"
 
 
     

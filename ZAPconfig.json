@@ -28,7 +28,8 @@
       "userName":"username",
       "password":"password",
       "customScanPolicy":"False",
-      "scanRequestHeader":"False"
+      "scanRequestHeader":"False",
+      "sessionFile":"wb.session"
   },
   "ascan":{
       "excludeFromScanPath":"json/ascan/action/excludeFromScan",  
