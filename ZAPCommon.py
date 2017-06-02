@@ -54,7 +54,7 @@ class ZAPCommon(object):
     def startZap(self):
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
         print os.path.expanduser(zapDirectory)
-        subprocess.Popen([os.path.expanduser(zapDirectory) + 'zap/zap.sh', '-daemon', '-config api.key=' + self.ZAP_apikey])
+        subprocess.Popen([os.path.expanduser(zapDirectory) + 'zap/zap.sh', '-daemon', '-config', 'api.key=' + self.ZAP_apikey])
         print "ZAP loading..."
         time.sleep(15)
 
@@ -226,7 +226,7 @@ class ZAPCommon(object):
         #payload = {'zapapiformat':ZAP_apiformat,'apikey':ZAP_apikey,'baseurl':applicationURL}
         payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey}
         alerts_response = self.initiateZAPAPI(viewAlertsPath,'','',payload)
-        return alerts_response 
+        return alerts_response.json()
     
     # get scan results filter by URL
     def getScanAlertsURL(self,applicationURL):
