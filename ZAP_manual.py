@@ -40,7 +40,7 @@ def spiderURLwithUserCred(contextId, userId, URL):
         return 
         
 # Scan status
-def getSpiderStatus(scanId):
+def getSpiderStatus(scanId=None):
     spiderStatusPath = config['spider']['spiderStatus_User'] 
     #StatusURL = ZAP_baseURL + "/" + statusPath
     payload = {'zapapiformat':ZAP_apiformat,'scanId':scanId}
