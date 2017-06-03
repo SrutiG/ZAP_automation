@@ -241,7 +241,7 @@ if __name__ == "__main__":
         enableScanners_resp = ZAPCommon.createCustomScanTest(scanPolicyName)
         if enableScanners_resp.status_code == 200:
             print "[Done] Custom Scan Policy Successfully created. "
-            if loadedSession = "y":
+            if loadedSession == "y":
                 runActiveScanOnSession(contextId,scanPolicyName,userId)
             else:
                 runActiveScanAsUser(contextId, scanPolicyName, userId)
