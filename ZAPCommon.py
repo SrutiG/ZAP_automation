@@ -50,7 +50,7 @@ class ZAPCommon(object):
                 
     # Common methods to initiate ZAP API request
 
-    #start running ZAP
+    #start running ZAP in daemon mode, set the API key
     def startZap(self):
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
         print os.path.expanduser(zapDirectory)
@@ -281,14 +281,15 @@ class ZAPCommon(object):
             ids = ids + self.getScanPolicyID(name) + ","
         return ids
 
-    #load a session file saved in a certain directory
+    #load the session files saved in a certain directory
     def loadSession(self):
         sessionFile = self.config['application']['sessionFile']
+        sessionFileDirecory = self.config['application']['sessionFileDirectory']
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
-        os.system('cp ~/%s.session %s.ZAP/session/%s.session'%(sessionFile, zapDirectory, sessionFile))
-        os.system('cp ~/%s.session.properties %s.ZAP/session/%s.session.properties'%(sessionFile, zapDirectory, sessionFile))
-        os.system('cp ~/%s.session.data %s.ZAP/session/%s.session.data'%(sessionFile, zapDirectory, sessionFile))
-        os.system('cp ~/%s.session.script %s.ZAP/session/%s.session.script'%(sessionFile, zapDirectory, sessionFile))
+        os.system('cp %s%s.session %s.ZAP/session/%s.session'%(sessionFileDirectory, sessionFile, zapDirectory, sessionFile))
+        os.system('cp %s%s.session.properties %s.ZAP/session/%s.session.properties'%(sessionFileDirectory, sessionFile, zapDirectory, sessionFile))
+        os.system('cp %s%s.session.data %s.ZAP/session/%s.session.data'%(sessionFileDirectory, sessionFile, zapDirectory, sessionFile))
+        os.system('cp %s%s.session.script %s.ZAP/session/%s.session.script'%(sessionFileDirectory, sessionFile, zapDirectory, sessionFile))
         loadSessionPath = self.config['ZAP_core']['loadSessionPath']
         payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey,'name':sessionFile + ".session"}
         loadSession_resp = self.initiateZAPAPI(loadSessionPath,'','',payload)

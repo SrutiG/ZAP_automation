@@ -29,7 +29,8 @@
       "password":"password",
       "customScanPolicy":"False",
       "scanRequestHeader":"False",
-      "sessionFile":"session.session"
+      "sessionFile":"session.session",
+      "sessionFileDirectory": "~/"
   },
   "ascan":{
       "excludeFromScanPath":"json/ascan/action/excludeFromScan",  
