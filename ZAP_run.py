@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
 	#add the parameters to run the scan
 	addConfiguration(appData)
-	os.system("python ZAP_automation/zapInstallation.py --zap i") #Install ZAP
+	os.system("python ZAP_automation/ZAP_installation.py --zap i") #Install ZAP
 	ZAP_Common.startZap() #start ZAP
 	#load the session from S3*** in ZAP_manual.py
 	os.system("python ZAP_automation/ZAP_manual.py") #spider
@@ -37,6 +37,6 @@ if __name__ == "__main__":
 	os.system("python ZAP_automation/generateReports.py") #generate HTML Report
 	#send reports to S3***
 	ZAP_Common.stopZap() #shutdown ZAP server
-	os.system("python ZAP_automation/zapInstallation.py --zap r") #Remove ZAP
+	os.system("python ZAP_automation/ZAP_installation.py --zap r") #Remove ZAP
 	os.system("rm -rf ZAP_automation")
 

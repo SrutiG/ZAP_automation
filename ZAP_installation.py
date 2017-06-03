@@ -2,6 +2,7 @@
 import os
 import sys
 import argparse
+import ZAPCommon
 
 
 '''
@@ -9,9 +10,11 @@ Install zap
 '''
 class zapInstallation:
 
-	def __init__(self, directory="~/", zapVersion="2.6.0"):
-		self.directory = directory
-		self.zapVersion = zapVersion
+	def __init__(self):
+		ZAP_Common = ZAPCommon.ZAPCommon()
+		config = ZAP_Common.config
+		self.directory = config['ZAP_info']['ZAP_directory']
+		self.zapVersion = config['ZAP_info']['ZAP_version']
 
 	def zapInstall(self):
 		os.system("wget - https://github.com/zaproxy/zaproxy/releases/download/%s/ZAP_%s_Linux.tar.gz"%(self.zapVersion, self.zapVersion))
