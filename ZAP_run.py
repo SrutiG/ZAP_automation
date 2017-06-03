@@ -4,8 +4,8 @@ import argparse
 import sys
 import json
 '''
-add command rm -rf ZAP_automation; pip install requests; git clone https://github.com/SrutiG/ZAP_automation.git; python ZAP_automation/zapRun.py --config $APP_INFO;
-where $APP_INFO is a parameter defined in jenkins- a json object for the key "application" in the config file.
+add command: rm -rf ZAP_automation; pip install requests; git clone https://github.com/SrutiG/ZAP_automation.git; python ZAP_automation/ZAP_run.py --config $APP_INFO;
+where $APP_INFO is a parameter defined in jenkins: a json object for the key "application" in the config file.
 '''
 ZAP_Common = ZAPCommon.ZAPCommon()
 
@@ -18,7 +18,7 @@ def addConfiguration(application):
 	configFile.write(json.dumps(config))
 
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description='install or remove zap')
+	parser = argparse.ArgumentParser(description='json object with application configuration')
 	parser.add_argument('--config', type=str, default="n",
 	                   help='application config')
 	args = parser.parse_args()
@@ -32,8 +32,8 @@ if __name__ == "__main__":
 	os.system("python ZAP_automation/ZAP_installation.py --zap i") #Install ZAP
 	ZAP_Common.startZap() #start ZAP
 	#load the session from S3*** in ZAP_manual.py
-	os.system("python ZAP_automation/ZAP_manual.py") #spider
-	os.system("python ZAP_automation/ZAP_ActiveScan.py") #active scan
+	os.system("python ZAP_automation/ZAP_manual.py --session y") #spider
+	os.system("python ZAP_automation/ZAP_ActiveScan.py --session y") #active scan
 	os.system("python ZAP_automation/generateReports.py") #generate HTML Report
 	#send reports to S3***
 	ZAP_Common.stopZap() #shutdown ZAP server

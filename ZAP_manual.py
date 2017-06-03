@@ -11,6 +11,7 @@ import time
 import urllib
 import ZAPFormAuth 
 import  ZAPCommon 
+import argparse
 
 
 ############ Default Values ############
@@ -64,36 +65,42 @@ Uncomment after testing is done
 #ZAPCommon = ZAPCommon.ZAPCommon.__init__() # initiate common method class
 
 
-
-FormAuth = ZAPFormAuth.FormAuth(ZAPCommon)
-# Alert filter requires target applications to be in the context of ZAP
-# include all URLs in history to Context
-ZAPCommon.loadSession() #Need to see if this works
-contextName = config['context']['name']
-create_response = ZAPCommon.createContext(contextName)
-contextId = create_response.json()['contextId']
-URL = config['application']['applicationURL']
-include_response = ZAPCommon.includeURLContext(contextName,URL)
-if include_response.status_code == 200:
-    FormAuth.setAuthentication(contextId)
-    FormAuth.setLoginIndicator(contextId)
-    FormAuth.setLogoutIndicator(contextId)
-    #setupUser(contextId)  
-    userName = config['application']['userName']  
-    createUser_resp = ZAPCommon.createNewUser(contextId, userName) # Create new user
-    userId = createUser_resp.json()['userId']
-    setAuthCreds_resp = ZAPCommon.setAuthCredentialUser(userId, userName, contextId) # Add user credentials
-    enableUser_resp = ZAPCommon.enableUser(contextId,userId,userName) # Enable user
-    spiderAsUser_resp = spiderURLwithUserCred(contextId, userId, URL)
-    scan_status = -1
-    while (int(scan_status) < 100):
-        time.sleep(10) # 10 seconds
-        scan_status = getSpiderStatus().json()['status']
-        print "[Info] Currently spidering the application. " + scan_status + "% Completed. " + "Please wait...."
-    print "[Done] Active Scan completed" 
-    # ToDo check spider scan status
-    print contextId
-    print userId 
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='session already loaded or new session')
+    parser.add_argument('--session', type=str, default="n",
+                       help='--session y for loaded session, default: --session n for new session')
+    args = parser.parse_args()
+    loadSession = args.session
+    FormAuth = ZAPFormAuth.FormAuth(ZAPCommon)
+    # Alert filter requires target applications to be in the context of ZAP
+    # include all URLs in history to Context
+    if loadSession == "y":
+        ZAPCommon.loadSession() #load a saved session
+    contextName = config['context']['name']
+    create_response = ZAPCommon.createContext(contextName)
+    contextId = create_response.json()['contextId']
+    URL = config['application']['applicationURL']
+    include_response = ZAPCommon.includeURLContext(contextName,URL)
+    if include_response.status_code == 200:
+        FormAuth.setAuthentication(contextId)
+        FormAuth.setLoginIndicator(contextId)
+        FormAuth.setLogoutIndicator(contextId)
+        #setupUser(contextId)  
+        userName = config['application']['userName']  
+        createUser_resp = ZAPCommon.createNewUser(contextId, userName) # Create new user
+        userId = createUser_resp.json()['userId']
+        setAuthCreds_resp = ZAPCommon.setAuthCredentialUser(userId, userName, contextId) # Add user credentials
+        enableUser_resp = ZAPCommon.enableUser(contextId,userId,userName) # Enable user
+        spiderAsUser_resp = spiderURLwithUserCred(contextId, userId, URL)
+        scan_status = -1
+        while (int(scan_status) < 100):
+            time.sleep(10) # 10 seconds
+            scan_status = getSpiderStatus().json()['status']
+            print "[Info] Currently spidering the application. " + scan_status + "% Completed. " + "Please wait...."
+        print "[Done] Active Scan completed" 
+        # ToDo check spider scan status
+        print contextId
+        print userId 
 
 
 

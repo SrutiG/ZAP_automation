@@ -22,6 +22,7 @@ import time
 import urllib
 import ZAPCommon
 import ZAPFormAuth
+import argparse
 
 ############ Default Values ############
 # Load configuration
@@ -218,26 +219,36 @@ def printActiveScanResults():
     
 ####################### Main #########################################        
 
-contextName = config['context']['name']
 
-contextId = getContextId()
-URL = config['application']['applicationURL']
-userName = config['application']['userName']  
-userId = getUserId()
-if userId == None:
-    print "error user not found"
-    sys.exit(1)
-customScan = config['application']['customScanPolicy']
-if customScan:   # use custom scan policy or tests
-    scanPolicyName = config['ascan']['scanPolicyName']
-    enableScanners_resp = ZAPCommon.createCustomScanTest(scanPolicyName)
-    if enableScanners_resp.status_code == 200:
-        print "[Done] Custom Scan Policy Successfully created. "
-        runActiveScanOnSession(contextId,scanPolicyName,userId)
-        #applicationURL = 'https://workbench-c2-staging.bazaarvoice.com'
-        #applicationURL = 'https://s3.amazonaws.com/bvjs-apps'
-    else: # Run all tests
-        runActiveScan(contextId,None)
-printActiveScanResults() 
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='session already loaded or new session')
+    parser.add_argument('--session', type=str, default="n",
+                       help='--session y for loaded session, default: --session n for new session')
+    args = parser.parse_args()
+
+    loadedSession = args.session
+    contextName = config['context']['name']
+    contextId = getContextId()
+    URL = config['application']['applicationURL']
+    userName = config['application']['userName']
+    userId = getUserId()
+    if userId == None:
+        print "error user not found"
+        sys.exit(1)
+    customScan = config['application']['customScanPolicy']
+    if customScan:   # use custom scan policy or tests
+        scanPolicyName = config['ascan']['scanPolicyName']
+        enableScanners_resp = ZAPCommon.createCustomScanTest(scanPolicyName)
+        if enableScanners_resp.status_code == 200:
+            print "[Done] Custom Scan Policy Successfully created. "
+            if loadedSession = "y":
+                runActiveScanOnSession(contextId,scanPolicyName,userId)
+            else:
+                runActiveScanAsUser(contextId, scanPolicyName, userId)
+            #applicationURL = 'https://workbench-c2-staging.bazaarvoice.com'
+            #applicationURL = 'https://s3.amazonaws.com/bvjs-apps'
+        else: # Run all tests
+            runActiveScan(contextId,None)
+    printActiveScanResults() 
         
 
