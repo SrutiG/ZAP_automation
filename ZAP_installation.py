@@ -47,7 +47,7 @@ if __name__ == "__main__":
 	                   help='install zap: --zap i for installation, --zap r to remove')
 	args = parser.parse_args()
 
-	zap_installation = zapInstallation()
+	zap_installation = ZAP_installation()
 
 	if args.zap == "i":
 		zap_installation.zapInstall()
