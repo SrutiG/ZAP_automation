@@ -96,6 +96,7 @@ def runActiveScan(contextId,scanPolicyName):
                 print "[Info] Active Scan in progress. " + scan_status + "% completed. " + "Please wait...."
             print "[Done] Active Scan completed" 
 
+#runs the active scan when there is already a loaded session in ZAP
 def runActiveScanOnSession(contextId, scanPolicyName, userId):
     scanAllRequestHeaders()
     startingPoint = config['application']['applicationURL']
@@ -159,6 +160,7 @@ def getScanStatus():
     status_response = ZAPCommon.initiateZAPAPI(statusPath,'','',payload)
     return status_response 
 
+#gets the context ID by name
 def getContextId():
     contextName = config['context']['name']
     contextPath = config['context']['contextPath']
@@ -166,6 +168,7 @@ def getContextId():
     context_response = ZAPCommon.initiateZAPAPI(contextPath,'','',payload)
     return context_response.json()['context']['id']
 
+#gets the user ID by iterating through the list of users and matching the name
 def getUserId():
     userName = config['application']['userName']
     usersPath = config['users']['usersPath']
