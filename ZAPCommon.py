@@ -284,7 +284,7 @@ class ZAPCommon(object):
     #load the session files saved in a certain directory
     def loadSession(self):
         sessionFile = self.config['application']['sessionFile']
-        sessionFileDirecory = self.config['application']['sessionFileDirectory']
+        sessionFileDirectory = self.config['application']['sessionFileDirectory']
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
         os.system('cp %s%s.session %s.ZAP/session/%s.session'%(sessionFileDirectory, sessionFile, zapDirectory, sessionFile))
         os.system('cp %s%s.session.properties %s.ZAP/session/%s.session.properties'%(sessionFileDirectory, sessionFile, zapDirectory, sessionFile))
