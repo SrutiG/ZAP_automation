@@ -53,7 +53,6 @@ class ZAPCommon(object):
     #start running ZAP in daemon mode, set the API key
     def startZap(self):
         zapDirectory = self.config['ZAP_info']['ZAP_directory']
-        print os.path.expanduser(zapDirectory)
         subprocess.Popen([os.path.expanduser(zapDirectory) + 'zap/zap.sh', '-daemon', '-config', 'api.key=' + self.ZAP_apikey])
         print "ZAP loading..."
         time.sleep(15)

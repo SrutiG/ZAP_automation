@@ -97,7 +97,7 @@ if __name__ == "__main__":
             time.sleep(10) # 10 seconds
             scan_status = getSpiderStatus().json()['status']
             print "[Info] Currently spidering the application. " + scan_status + "% Completed. " + "Please wait...."
-        print "[Done] Active Scan completed" 
+        print "[Done] Spidering completed" 
         # ToDo check spider scan status
         print contextId
         print userId 
