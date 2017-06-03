@@ -31,7 +31,7 @@ class ZAP_installation:
 		os.system("rm -rf %sZAP_%s"%(self.directory,self.zapVersion))
 		os.system("rm -rf %szap"%self.directory)
 		os.system("rm -rf ZAP_%s_Linux.tar.gz"%self.zapVersion)
-		os.system("rm -rf .ZAP")
+		os.system("rm -rf %s.ZAP"%(self.directory))
 	
 	
 
