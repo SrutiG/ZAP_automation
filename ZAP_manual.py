@@ -92,6 +92,7 @@ if __name__ == "__main__":
     if loadSession == "y":
         site_list = getProxyHistory()['sites'] 
         for site in site_list:
+            print site
             include_response = ZAPCommon.includeURLContext(contextName,URL)
     else:
         include_response = ZAPCommon.includeURLContext(contextName,URL)
