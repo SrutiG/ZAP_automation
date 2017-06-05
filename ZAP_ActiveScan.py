@@ -138,6 +138,7 @@ def isURLInContext(url):
     includeInContext = config['application']['includeSites']
     for link in includeInContext:
         link = link[0:len(link) - 1]
+        print link
         if link in url:
             return True
     return False
