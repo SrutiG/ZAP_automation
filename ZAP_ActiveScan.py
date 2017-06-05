@@ -137,7 +137,8 @@ def getDomainName(URL):
 def isURLInContext(url):
     includeInContext = config['application']['includeSites']
     for link in includeInContext:
-        if url.contains(link):
+        link = link[0:len(link) - 1]
+        if link in url:
             return True
     return False
 
