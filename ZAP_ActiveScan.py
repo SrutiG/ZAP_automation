@@ -139,7 +139,7 @@ def isURLInContext(url):
     for link in includeInContext:
         link = link[0:len(link) - 1]
         print link
-        if link in url:
+        if url in link:
             return True
     return False
 
