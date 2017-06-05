@@ -71,10 +71,10 @@ def runActiveScan(contextId,scanPolicyName):
     activescanPath = config['ascan']['activescanPath']
     excludeSitesfromScan()
     scanAllRequestHeaders() # check if Request headers needs to be scanned
-    site_list = getProxyHistory() # get list of URLs to scan
+    site_list = getProxyHistory()['sites'] # get list of URLs to scan
     if site_list:
         print "[Info] No. of sites to test: " + str(len(site_list))
-        for URL in site_list['sites']:
+        for URL in site_list:
             print  "[Info] Running active scan for URL: " + URL
             if getDomainName(URL) in domain: # ignore domains
                 continue
