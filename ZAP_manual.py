@@ -29,6 +29,12 @@ ZAP_baseURL = ZAPCommon.ZAP_baseURL
 ZAP_apiformat = ZAPCommon.ZAP_apiformat
 
 
+def getProxyHistory():
+    viewSitesPath = config['ZAP_core']['viewSitesPath']
+    #viewSiteURL = ZAP_baseURL + "/" + viewSitesPath
+    payload ={'zapapiformat':ZAP_apiformat,'apikey':ZAP_apikey}
+    site_list = ZAPCommon.initiateZAPAPI(viewSitesPath,'','',payload)
+    return site_list.json()
 
 def spiderURLwithUserCred(contextId, userId, URL):
     # The url must be url encoded
@@ -69,8 +75,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='session already loaded or new session')
     parser.add_argument('--session', type=str, default="n",
                        help='--session y for loaded session, default: --session n for new session')
+    parser.add_argument('--spider', type=str, default="n",
+                       help='--spider y for spider, default: --spider n for no spider')
     args = parser.parse_args()
     loadSession = args.session
+    spider = args.spider
     FormAuth = ZAPFormAuth.FormAuth(ZAPCommon)
     # Alert filter requires target applications to be in the context of ZAP
     # include all URLs in history to Context
@@ -80,7 +89,12 @@ if __name__ == "__main__":
     create_response = ZAPCommon.createContext(contextName)
     contextId = create_response.json()['contextId']
     URL = config['application']['applicationURL']
-    include_response = ZAPCommon.includeURLContext(contextName,URL)
+    if loadSession == "y":
+        site_list = getProxyHistory()['sites'] 
+        for site in site_list:
+            include_response = ZAPCommon.includeURLContext(contextName,URL)
+    else:
+        include_response = ZAPCommon.includeURLContext(contextName,URL)
     if include_response.status_code == 200:
         FormAuth.setAuthentication(contextId)
         FormAuth.setLoginIndicator(contextId)
@@ -91,16 +105,15 @@ if __name__ == "__main__":
         userId = createUser_resp.json()['userId']
         setAuthCreds_resp = ZAPCommon.setAuthCredentialUser(userId, userName, contextId) # Add user credentials
         enableUser_resp = ZAPCommon.enableUser(contextId,userId,userName) # Enable user
-        spiderAsUser_resp = spiderURLwithUserCred(contextId, userId, URL)
-        scan_status = -1
-        while (int(scan_status) < 100):
-            time.sleep(10) # 10 seconds
-            scan_status = getSpiderStatus().json()['status']
-            print "[Info] Currently spidering the application. " + scan_status + "% Completed. " + "Please wait...."
-        print "[Done] Spidering completed" 
-        # ToDo check spider scan status
-        print contextId
-        print userId 
+        if spider == "y":
+            spiderAsUser_resp = spiderURLwithUserCred(contextId, userId, URL)
+            scan_status = -1
+            while (int(scan_status) < 100):
+                time.sleep(10) # 10 seconds
+                scan_status = getSpiderStatus().json()['status']
+                print "[Info] Currently spidering the application. " + scan_status + "% Completed. " + "Please wait...."
+            print "[Done] Spidering completed" 
+            # ToDo check spider scan status
 
 
 

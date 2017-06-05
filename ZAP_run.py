@@ -32,8 +32,8 @@ if __name__ == "__main__":
 	os.system("python ZAP_automation/ZAP_installation.py --zap i") #Install ZAP
 	ZAP_Common.startZap() #start ZAP
 	#load the session from S3*** in ZAP_manual.py
-	os.system("python ZAP_automation/ZAP_manual.py --session y") #spider
-	os.system("python ZAP_automation/ZAP_ActiveScan.py --session y") #active scan
+	os.system("python ZAP_automation/ZAP_manual.py --session y") #spider/set up zap
+	os.system("python ZAP_automation/ZAP_ActiveScan.py") #active scan
 	os.system("python ZAP_automation/generateReports.py") #generate HTML Report
 	#send reports to S3***
 	ZAP_Common.stopZap() #shutdown ZAP server

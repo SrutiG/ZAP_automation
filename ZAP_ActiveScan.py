@@ -22,7 +22,6 @@ import time
 import urllib
 import ZAPCommon
 import ZAPFormAuth
-import argparse
 
 ############ Default Values ############
 # Load configuration
@@ -97,35 +96,13 @@ def runActiveScan(contextId,scanPolicyName):
                 print "[Info] Active Scan in progress. " + scan_status + "% completed. " + "Please wait...."
             print "[Done] Active Scan completed" 
 
-#runs the active scan when there is already a loaded session in ZAP
-def runActiveScanOnSession(contextId, scanPolicyName, userId):
-    scanAllRequestHeaders()
-    startingPoint = config['application']['applicationURL']
-    activescanPath = config['ascan']['scanAsUser']
-    if scanPolicyName == None:
-        payload = {'zapapiformat':ZAP_apiformat, 'apikey':ZAP_apikey, 'url':startingPoint,'recurse':True, 
-                   'inScopeOnly':False, 'contextId':contextId, 'userId':userId
-        }
-    else:
-        payload = {'zapapiformat':ZAP_apiformat, 'apikey':ZAP_apikey,'url':startingPoint,'recurse':True, 
-                   'inScopeOnly':False, 'scanPolicyName':scanPolicyName,'contextId':contextId, 'userId':userId
-        }
-    ascan_response = ZAPCommon.initiateZAPAPI(activescanPath,'','',payload)
-    
-    scan_status = -1
-    while (int(scan_status) < 100):
-        time.sleep(10) # 10 seconds
-        scan_status = getScanStatus().json()['status']
-        print "[Info] Active Scan in progress. " + scan_status + "% completed. " + "Please wait...."
-    print "[Done] Active Scan completed" 
-
 # Initiate active scan by logging in as user       
 def runActiveScanAsUser(contextId,scanPolicyName,userId):
     domain = config['application']['excludeDomain']
     activescanPath = config['ascan']['scanAsUser']
     excludeSitesfromScan()
     scanAllRequestHeaders() # check if Request headers needs to be scanned
-    site_list = getProxyHistory() # get list of sites to scan
+    site_list = getProxyHistory()['sites'] # get list of sites to scan
     if site_list:
         print "[Info] No. of sites to test: " + str(len(site_list))
         for URL in site_list['sites']:
@@ -221,12 +198,6 @@ def printActiveScanResults():
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='session already loaded or new session')
-    parser.add_argument('--session', type=str, default="n",
-                       help='--session y for loaded session, default: --session n for new session')
-    args = parser.parse_args()
-
-    loadedSession = args.session
     contextName = config['context']['name']
     contextId = getContextId()
     URL = config['application']['applicationURL']
@@ -241,10 +212,8 @@ if __name__ == "__main__":
         enableScanners_resp = ZAPCommon.createCustomScanTest(scanPolicyName)
         if enableScanners_resp.status_code == 200:
             print "[Done] Custom Scan Policy Successfully created. "
-            if loadedSession == "y":
-                runActiveScanOnSession(contextId,scanPolicyName,userId)
-            else:
-                runActiveScanAsUser(contextId, scanPolicyName, userId)
+            runActiveScanAsUser(contextId,scanPolicyName,userId)
+            
             #applicationURL = 'https://workbench-c2-staging.bazaarvoice.com'
             #applicationURL = 'https://s3.amazonaws.com/bvjs-apps'
         else: # Run all tests
