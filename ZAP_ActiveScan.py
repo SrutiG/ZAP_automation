@@ -118,6 +118,9 @@ def runActiveScanAsUser(contextId,scanPolicyName,userId):
              
             ascan_response = ZAPCommon.initiateZAPAPI(activescanPath,'','',payload)
             print ascan_response.json()
+            if ascan_response == 400:
+                print "bad request for url, continue"
+                continue
             scanID = ascan_response.json()['scanAsUser']
             scan_status = -1
             while (int(scan_status) < 100):
