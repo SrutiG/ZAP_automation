@@ -17,6 +17,7 @@
   },
   "application":{
       "excludeSites":["example.com*","http://<sitestoexclude>.*"],
+      "includeSites": ["example.com*","http://<sitestoexclude>.*"],
     "excludeDomain":["google"],
     "loginURL":"https://example.com/",
       "userNameParameter":"username",

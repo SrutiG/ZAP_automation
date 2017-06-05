@@ -54,9 +54,6 @@ def getSpiderStatus(scanId=None):
     spiderStatus_response = ZAPCommon.initiateZAPAPI(spiderStatusPath,'','',payload)
     return spiderStatus_response         
 
-def getDomainName(URL):
-    domainName = urlparse(URL).hostname.split('.')[1]   
-    return domainName
     
     
 ####################### Main #########################################        
@@ -92,12 +89,9 @@ if __name__ == "__main__":
     create_response = ZAPCommon.createContext(contextName)
     contextId = create_response.json()['contextId']
     URL = config['application']['applicationURL']
-    domain = config['application']['excludeDomain']
+    includeSites = config['application']['includeSites']
     if loadSession == "y":
-        site_list = getProxyHistory()['sites'] 
-        for site in site_list:
-            if getDomainName(site) in domain:
-                continue
+        for site in includeSites:
             include_response = ZAPCommon.includeURLContext(contextName,site)
     else:
         include_response = ZAPCommon.includeURLContext(contextName,URL)
