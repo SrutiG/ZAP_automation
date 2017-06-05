@@ -107,7 +107,8 @@ def runActiveScanAsUser(contextId,scanPolicyName,userId):
         print "[Info] No. of sites to test: " + str(len(site_list))
         for URL in site_list:
             print  "[Info] Running active scan for URL: " + URL
-            if getDomainName(URL) in domain: # ignore domains
+            if not isURLInContext(URL): # ignore domains
+                print URL + " not in context"
                 continue
             if scanPolicyName == None:
                 payload = {'zapapiformat':ZAP_apiformat, 'apikey':ZAP_apikey, 'url':URL, 'recurse':True, 
@@ -132,6 +133,13 @@ def runActiveScanAsUser(contextId,scanPolicyName,userId):
 def getDomainName(URL):
     domainName = urlparse(URL).hostname.split('.')[1]   
     return domainName
+
+def isURLInContext(url):
+    includeInContext = config['application']['includeSites']
+    for link in includeInContext:
+        if url.contains(link):
+            return True
+    return False
 
 # Scan status
 def getScanStatus():
