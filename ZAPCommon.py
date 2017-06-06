@@ -56,7 +56,7 @@ class ZAPCommon(object):
         hostPerScan = self.config['default']['hostPerScan']
         threadPerHost = self.config['default']['threadPerHost']
         #os.system("sed -i 's/\(CACHE SIZE\).*/\1 50000/' " + zapDirectory + "zap/db/zapdb.script")
-        subprocess.Popen([os.path.expanduser(zapDirectory) + 'zap/zap.sh', '-daemon', '-config', 'api.key=' + self.ZAP_apikey, '-port', '8090', '-config', 'hostPerScan=' + hostPerScan, '-config', 'threadPerHost=' + threadPerHost])
+        subprocess.Popen([os.path.expanduser(zapDirectory) + 'zap/zap.sh', '-daemon', '-config', 'api.key=' + self.ZAP_apikey, '-port', '8080', '-config', 'hostPerScan=' + hostPerScan, '-config', 'threadPerHost=' + threadPerHost])
         print "ZAP loading..."
         time.sleep(15)
 
