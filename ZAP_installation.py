@@ -20,6 +20,7 @@ class ZAP_installation:
 	get the latest release from github, extract files, and save to 'zap' directory
 	'''
 	def zapInstall(self):
+		print "[Info] Installing ZAP..."
 		os.system("wget - https://github.com/zaproxy/zaproxy/releases/download/%s/ZAP_%s_Linux.tar.gz"%(self.zapVersion, self.zapVersion))
 		os.system("tar zxf ZAP_%s_Linux.tar.gz -C %s"%(self.zapVersion, self.directory))
 		os.system("ln -s %sZAP_%s %szap"%(self.directory, self.zapVersion, self.directory))
@@ -28,6 +29,7 @@ class ZAP_installation:
 	remove tar files, zap directory, and logs
 	'''
 	def removeZap(self):
+		print "[Info] Removing ZAP..."
 		os.system("rm -rf %sZAP_%s"%(self.directory,self.zapVersion))
 		os.system("rm -rf %szap"%self.directory)
 		os.system("rm -rf ZAP_%s_Linux.tar.gz"%self.zapVersion)
