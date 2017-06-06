@@ -296,6 +296,75 @@ class ZAPCommon(object):
         if loadSession_resp.status_code == 200:
             print "[Done] Session successfully loaded"
 
+    #try to filter out duplicate URLs before running the active scan
+    def filterURLs(self):
+        urlsPath = self.config['ZAP_core']['urlsPath']
+        payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey}
+        urls_resp = self.initiateZAPAPI(urlsPath, '', '', payload)
+        if urls_resp.status_code == 200:
+            print "URLs successfully loaded"
+            urls = urls_resp['urls']
+            formattedUrls = {}
+            for url in urls:
+                domain = url.split("?")[0]
+                payload = url.split("?")[1]
+                params = payload.split("&")
+                paramLst = []
+                for param in params:
+                    paramLst.append(param.split("=")[0])
+                if formattedUrls[(domain, paramLst)] != None:
+                    deleteSiteNodePath = config['ZAP_core']['deleteSiteNodePath']
+                    payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey, 'url':url}
+                    deleteNode_resp = self.initiateZAPAPI(deleteSiteNodePath, '', '', payload)
+                    if deleteNode_resp.status_code == 200:
+                        print "URL " + url + " successfully deleted from site tree"
+                else:
+                    formattedUrls[(domain, paramLst)] = url
+            return formattedUrls
+
+    #doesn't keep URLs with the same list of parameters, or overlapping lists of parameters. In format {'domain1':{[p1, p2]:'www.domain1.com?p1=val&p2=val', [p2, p3]:'www.domain1.com?p2=val&p3=val'}, 'domain2':{[p4, p5]:'www.domain2.com?p4=val&p5=val'}}
+    def filterURLs2(self):
+        urlsPath = self.config['ZAP_core']['urlsPath']
+        payload = {'zapapiformat':self.ZAP_apiformat,'apikey':self.ZAP_apikey}
+        urls_resp = self.initiateZAPAPI(urlsPath, '', '', payload)
+        if urls_resp.status_code == 200:
+            print "URLs successfully loaded"
+            urls = urls_resp['urls']
+            formattedUrls = {}
+            for url in urls:
+                domain = url.split("?")[0]
+                payload = url.split("?")[1]
+                params = payload.split("&")
+                paramLst = []
+                for param in params:
+                    paramLst.append(param.split("=")[0])
+                if formattedUrls[domain] != None:
+                    addURL = True
+                    if formattedUrls[domain][paramLst] != None:
+                        addURL = False
+                        break
+                    paramObj = formattedUrls[domain]
+                    for key in paramObj:
+                        for param in paramLst:
+                            if param not in key:
+                                if len(params) <= len(key):
+                                    break
+                                else:
+                                    for val in key:
+                                        if val not in param:
+                                            break
+                                    formattedUrls[domain].pop(key)
+                                    addURL = False
+                        addURL = False
+                        break
+                    if addURL:
+                        formattedUrls[domain][params] = url
+                else:
+                    formattedUrls[domain] = {}
+                    formattedUrls[domain][params] = url
+        return formattedUrls
+
+
     #shutdown the ZAP server
     def stopZap(self):
         pathToShutdown = "json/core/actions/shutdown"
@@ -303,6 +372,7 @@ class ZAPCommon(object):
         shutdown_resp = self.initiateZAPAPI(pathToShutdown,'','',payload)
         if shutdown_resp.status_code == 200:
             print "[Done] ZAP successfully shut down"
+
 
 
     

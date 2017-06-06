@@ -129,6 +129,38 @@ def runActiveScanAsUser(contextId,scanPolicyName,userId):
                 scan_status = getScanStatus().json()['status']
                 print "[Info] Active Scan in progress. " + scan_status + "% completed. " + "Please wait...."
             print "[Done] Active Scan completed"      
+
+def runActiveScanOnURLs(contextId,scanPolicyName,userId):
+    domain = config['application']['excludeDomain']
+    activescanPath = config['ascan']['scanAsUser']
+    urls = ZAPCommon.filterURLs()
+    excludeSitesfromScan()
+    scanAllRequestHeaders() # check if Request headers needs to be scanned
+    if urls:
+        for key, URL in urls.iteritems():
+            print  "[Info] Running active scan for URL: " + URL
+            if not isURLInContext(URL): # ignore domains
+                print URL + " not in context"
+                continue
+            if scanPolicyName == None:
+                payload = {'zapapiformat':ZAP_apiformat, 'apikey':ZAP_apikey, 'url':URL, 'recurse':False, 
+                           'inScopeOnly':False, 'contextId':contextId }
+            else:
+                payload = {'zapapiformat':ZAP_apiformat, 'apikey':ZAP_apikey, 'url':URL, 'recurse':False, 
+                           'inScopeOnly':False, 'scanPolicyName':scanPolicyName,'contextId':contextId, 'userId':userId }
+             
+            ascan_response = ZAPCommon.initiateZAPAPI(activescanPath,'','',payload)
+            print ascan_response.json()
+            if ascan_response == 400:
+                print "bad request for url, continue"
+                continue
+            scanID = ascan_response.json()['scanAsUser']
+            scan_status = -1
+            while (int(scan_status) < 100):
+                time.sleep(10) # 10 seconds
+                scan_status = getScanStatus().json()['status']
+                print "[Info] Active Scan in progress. " + scan_status + "% completed. " + "Please wait...."
+            print "[Done] Active Scan completed"  
     
 def getDomainName(URL):
     domainName = urlparse(URL).hostname.split('.')[1]   
@@ -137,8 +169,8 @@ def getDomainName(URL):
 def isURLInContext(url):
     includeInContext = config['application']['includeSites']
     for link in includeInContext:
-        link = link[0:len(link) - 1]
-        if url in link:
+        link = link[0:len(link) - 2]
+        if link in url:
             return True
     return False
 

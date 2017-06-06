@@ -13,7 +13,9 @@
 	  "viewAlertsPath":"json/core/view/alerts",
 	  "newSessionPath":"json/core/action/newSession",
     "loadSessionPath":"json/core/action/loadSession",
-	  "sessionName":"AppSec_session"
+	  "sessionName":"AppSec_session",
+    "urlsPath" : "json/core/view/urls",
+    "deleteSiteNodePath" : "json/core/action/deleteSiteNode"
   },
   "application":{
       "excludeSites":["example.com*","http://<sitestoexclude>.*"],
