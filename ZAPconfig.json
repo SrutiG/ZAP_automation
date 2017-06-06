@@ -6,7 +6,10 @@
   "default":{
 	  "ZAP_apikey":"a5id7vfgmfq0cp9hedehr75d5i",
 	  "ZAP_baseURL":"http://127.0.0.1:8080",
-	  "ZAP_apiformat":"JSON"
+	  "ZAP_apiformat":"JSON",
+    "hostPerScan":"4",
+    "threadPerHost":"30"
+
   },
   "ZAP_core":{
 	  "viewSitesPath":"json/core/view/sites",
