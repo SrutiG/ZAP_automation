@@ -127,7 +127,7 @@ def runActiveScanAsUser(contextId,scanPolicyName,userId):
             while (int(scan_status) < 100):
                 time.sleep(10) # 10 seconds
                 scan_status = getScanStatus().json()['status']
-                print "[Info] Active Scan in progress. " + scan_status + "% completed. " + "Please wait...."
+                print "[Info] Active Scan for site: " + URL + " in progress. " + scan_status + "% completed. " + "Please wait...."
             print "[Done] Active Scan completed"      
 
 def runActiveScanOnURLs(contextId,scanPolicyName,userId):
