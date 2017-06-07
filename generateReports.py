@@ -6,7 +6,7 @@ def concatenateReports(jsonLst):
 		alerts += alertLst
 	return alerts
 
-def orderedAlerts(alerts):
+def orderAlerts(alerts):
 	formattedAlerts = {}
 	for alert in alerts:
 		if not alert["name"] in list(formattedAlerts):
@@ -41,7 +41,7 @@ def getColors():
 	return {"High":{"text":"text-danger", "bg":"bg-danger"}, "Medium":{"text":"text-warning", "bg":"bg-warning"}, "Low":{"text":"text-success", "bg":"bg-success"}, "High":{"text":"text-info", "bg":"bg-info"}}
 
 def createHTMLReport(alerts):
-	orderedAlerts = orderedAlerts(alerts)
+	orderedAlerts = orderAlerts(alerts)
 	risk = getRisk(alerts)
 	colors = getColors()
 	htmlReport = open("htmlReport.html", "w")
