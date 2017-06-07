@@ -8,7 +8,7 @@
 	  "ZAP_baseURL":"http://127.0.0.1:8080",
 	  "ZAP_apiformat":"JSON",
     "hostPerScan":"3",
-    "threadPerHost":"20"
+    "threadPerHost":"15"
 
   },
   "ZAP_core":{
